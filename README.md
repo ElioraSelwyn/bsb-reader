@@ -1,6 +1,6 @@
 # Eliora Selwyn: Read the Bible (BSB reader)
 
-Files for the "Read the Bible" page on https://www.elioraselwyn.com/p/read-the-bible.html.
+Files for the "Read the Bible" page on https://www.elioraselwyn.com/p/read-bible.html.
 The page loads these files from jsDelivr, pinned to this repository's `v1` tag:
 `https://cdn.jsdelivr.net/gh/OWNER/REPO@v1/reader.js`
 
@@ -12,8 +12,8 @@ The page loads these files from jsDelivr, pinned to this repository's `v1` tag:
 - `tools/`: `convert.py` (official download → JSON), `validate.py` (checks every verse against the official text), `reader.src.js` and `build.py` (rebuild reader.js).
 
 ## Link format
-`/p/read-the-bible.html#Ps.122.2` (verse), `#Ps.121.1-2` (range), `#Acts.12` (chapter).
-Optional return page: `/p/read-the-bible.html?from=/2026/11/article.html#Ps.122.2`.
+`/p/read-bible.html#Ps.122.2` (verse), `#Ps.121.1-2` (range), `#Acts.12` (chapter).
+Optional return page: `/p/read-bible.html?from=/2026/11/article.html#Ps.122.2`.
 
 ## Text
 Berean Standard Bible (BSB), from the official downloads at https://berean.bible/downloads.htm:
