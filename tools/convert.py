@@ -2,8 +2,10 @@
 """Convert the official BSB USFM (bereanbible.com/bsb_usfm.zip) to per-chapter JSON,
 then verify every verse's wording against the official plain text (bereanbible.com/bsb.txt)."""
 import re, json, os, glob, sys, unicodedata
-SRC = '/workspace/bsb-reader/src'
-OUT = '/workspace/bsb-reader/site/data'
+import os as _os
+ROOT = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repository root
+SRC = ROOT + '/src'   # put bsb.txt and the unzipped bsb_usfm/ folder here
+OUT = ROOT + '/data'
 # canonical order + OSIS ids used in reader links
 BOOKS = [("GEN","Gen","Genesis"),("EXO","Exod","Exodus"),("LEV","Lev","Leviticus"),("NUM","Num","Numbers"),("DEU","Deut","Deuteronomy"),("JOS","Josh","Joshua"),("JDG","Judg","Judges"),("RUT","Ruth","Ruth"),("1SA","1Sam","1 Samuel"),("2SA","2Sam","2 Samuel"),("1KI","1Kgs","1 Kings"),("2KI","2Kgs","2 Kings"),("1CH","1Chr","1 Chronicles"),("2CH","2Chr","2 Chronicles"),("EZR","Ezra","Ezra"),("NEH","Neh","Nehemiah"),("EST","Esth","Esther"),("JOB","Job","Job"),("PSA","Ps","Psalms"),("PRO","Prov","Proverbs"),("ECC","Eccl","Ecclesiastes"),("SNG","Song","Song of Solomon"),("ISA","Isa","Isaiah"),("JER","Jer","Jeremiah"),("LAM","Lam","Lamentations"),("EZK","Ezek","Ezekiel"),("DAN","Dan","Daniel"),("HOS","Hos","Hosea"),("JOL","Joel","Joel"),("AMO","Amos","Amos"),("OBA","Obad","Obadiah"),("JON","Jonah","Jonah"),("MIC","Mic","Micah"),("NAM","Nah","Nahum"),("HAB","Hab","Habakkuk"),("ZEP","Zeph","Zephaniah"),("HAG","Hag","Haggai"),("ZEC","Zech","Zechariah"),("MAL","Mal","Malachi"),("MAT","Matt","Matthew"),("MRK","Mark","Mark"),("LUK","Luke","Luke"),("JHN","John","John"),("ACT","Acts","Acts"),("ROM","Rom","Romans"),("1CO","1Cor","1 Corinthians"),("2CO","2Cor","2 Corinthians"),("GAL","Gal","Galatians"),("EPH","Eph","Ephesians"),("PHP","Phil","Philippians"),("COL","Col","Colossians"),("1TH","1Thess","1 Thessalonians"),("2TH","2Thess","2 Thessalonians"),("1TI","1Tim","1 Timothy"),("2TI","2Tim","2 Timothy"),("TIT","Titus","Titus"),("PHM","Phlm","Philemon"),("HEB","Heb","Hebrews"),("JAS","Jas","James"),("1PE","1Pet","1 Peter"),("2PE","2Pet","2 Peter"),("1JN","1John","1 John"),("2JN","2John","2 John"),("3JN","3John","3 John"),("JUD","Jude","Jude"),("REV","Rev","Revelation")]
 U2O = {u:o for u,o,_ in BOOKS}
@@ -152,6 +154,6 @@ def main():
            "verses_where_usfm_had_artifacts_so_bsb_txt_wording_used": len(fixed), "fixed_examples": fixed[:15], "wording_mismatches_after_build": len(mism), "mismatch_examples": mism[:20],
            "json_total_bytes": total_bytes, "chapter_bytes_min": sizes[0], "chapter_bytes_median": sizes[len(sizes)//2], "chapter_bytes_max": sizes[-1]}
     print(json.dumps(rep, indent=1))
-    open("/workspace/bsb-reader/data/usfm-artifact-verses.txt","w").write("\n".join(fixed)+"\n")
-    json.dump(rep, open('/workspace/bsb-reader/data/conversion-report.json', 'w'), indent=1)
+    open(ROOT + "/usfm-artifact-verses.txt","w").write("\n".join(fixed)+"\n")
+    json.dump(rep, open(ROOT + '/conversion-report.json', 'w'), indent=1)
 main()

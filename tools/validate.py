@@ -3,8 +3,10 @@
 Reads only the JSON the reader actually loads; does not reuse the converter's verse tracking."""
 import json, os, re, sys, hashlib, unicodedata
 from collections import OrderedDict
-B = '/workspace/bsb-reader'; D = B + '/site/data'
-TXT = B + '/src/bsb.txt'
+import os as _os
+ROOT = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))  # repository root
+B = ROOT; D = ROOT + '/data'
+TXT = ROOT + '/src/bsb.txt'  # download https://bereanbible.com/bsb.txt here first
 idx = json.load(open(D + '/index.json'))['books']
 names = {n: (o, c) for o, n, c in idx}
 names['Psalm'] = names['Psalms']
@@ -72,7 +74,7 @@ for key, (o, c, v) in {'Psalm 121:1': ('Ps', 121, 1), 'Psalm 122:2': ('Ps', 122,
 R['spot_checks'] = spots
 R['bsb_txt_sha256'] = hashlib.sha256(open(TXT, 'rb').read()).hexdigest()
 R['pass'] = not any(R[k] for k in ['missing_files', 'extra_files', 'chapter_count_mismatch', 'verse_count_mismatch', 'verse_set_mismatch', 'wording_mismatch', 'header_fields_bad', 'parse_errors']) and R['books_index'] == R['books_official'] == R['book_dirs'] == 66
-json.dump(R, open(B + '/data/validation.json', 'w'), indent=1, ensure_ascii=False)
+json.dump(R, open(ROOT + '/validation.json', 'w'), indent=1, ensure_ascii=False)
 print(json.dumps({k: (v if not isinstance(v, list) else (len(v), v[:5])) for k, v in R.items() if k != 'spot_checks'}, indent=1, ensure_ascii=False))
 print(json.dumps(spots, indent=1, ensure_ascii=False))
 sys.exit(0 if R['pass'] else 1)
